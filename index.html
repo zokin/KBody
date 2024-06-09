@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="KBody: Towards general, robust, and aligned monocular whole-body estimation.">
+  <meta name="keywords" content="KBody, Klothed, HMR, SMPL, SMPL-X, Body Fitting, Body Estimation, Monocular Human Mesh Recovery, Monocular Body Fitting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBody: Towards general, robust, and aligned monocular whole-body estimation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-XXXXXXXXXXXXX');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.css">
+  <script src="./static/js/dics.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://www.github.com/zokin">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <!-- <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://klothed.github.io/Placeholder1">
+            Placeholder #1
+          </a>
+          <a class="navbar-item" href="https://klothed.github.io/Placeholder2">
+            Placeholder #2
+          </a>
+          <a class="navbar-item" href="https://klothed.github.io/Placeholder3">
+            Placeholder #3
+          </a>
+          <a class="navbar-item" href="https://klothed.github.io/Placeholder4">
+            Placeholder #4
+          </a> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">KBody: Towards general, robust, and aligned monocular whole-body estimation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://zokin.github.io">Nikolaos Zioulis</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="http://obrien.berkeley.edu/">James F. O'Brien</a><sup>1, 2</sup>,</span>            
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup><a href="https://www.getklothed.com">Klothed Technologes Inc.</a>,</span>
+            <span class="author-block"><sup>2</sup>UC Berkeley</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://openaccess.thecvf.com/content/CVPR2023W/RHOBIN/papers/Zioulis_KBody_Towards_General_Robust_and_Aligned_Monocular_Whole-Body_Estimation_CVPRW_2023_paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (Long)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://openaccess.thecvf.com/content/CVPR2023W/RHOBIN/supplemental/Zioulis_KBody_Towards_General_CVPRW_2023_supplemental.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Supplementary</span>
+                </a>
+              </span>              
+              <span class="link-block">
+                <a href="https://openaccess.thecvf.com/content/CVPR2023W/CVFAD/papers/Zioulis_KBody_Balanced_Monocular_Whole-Body_Estimation_CVPRW_2023_paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper (short)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2304.11542"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=gC8HZa8bCLo"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/Klothed/KBody"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span> -->
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/Klothed/KBody"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="subtitle has-text-centered">
+        <span class="kbody">KBody</span> offers robust monocular body fitting across a wide variety of images.
+      </h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-hero1">
+          <img width=100% src="./static/images/full/faherty/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width=100% src="./static/images/full/faherty/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width=100% src="./static/images/full/faherty/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width=100% src="./static/images/full/faherty/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width=100% src="./static/images/full/faherty/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width=100% src="./static/images/full/faherty/kbody6.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width=100% src="./static/images/full/faherty/kbody7.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/full/good_american/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/full/good_american/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/full/good_american/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/full/hm/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/full/hm/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/full/hm/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/full/hm/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/full/hm/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width="100%" src="./static/images/full/hm/kbody6.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width="100%" src="./static/images/full/hm/kbody7.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/full/other/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/full/other/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/full/other/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/full/other/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/full/other/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width="100%" src="./static/images/full/other/kbody6.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/full/splendid/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/full/splendid/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/full/veronica/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/full/veronica/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/full/veronica/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/full/veronica/kbody4.jpg" class="center">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            <span class="kbody">KBody</span> is a method for fitting a low-dimensional body model to an image. 
+            It follows a predict-and-optimize approach, 
+            relying on data-driven model estimates for the constraints that will be used to solve for the body’s parameters.
+          </p>
+          <p> 
+            Acknowledging the importance of high quality correspondences, it leverages “<i>virtual joints</i>” to improve fitting performance, disentangles the optimization between the pose
+            and shape parameters, and integrates asymmetric distance fields to strike a balance in terms of pose and shape capturing capacity, as well as pixel alignment.             
+          </p>
+          <p>
+            We also show that generative model inversion offers a strong appearance prior that can be used to complete partial human images and used as a building block for generalized and robust monocular body fitting.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  <section class="hero teaser">
+    <div class="hero-body">
+      <div class="container has-text-centered is-max-desktop">    
+          <img width=100% src="./static/images/kbody_overview.png" class="center">
+          <h2 class="subtitle has-text-centered">
+            Overview of our <span class="kbody">KBody</span> framework.
+          </h2>
+      </div>
+  </div>
+</section>
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered"> -->
+      <!-- <div class="column is-four-fifths"> -->
+        <!-- <h2 class="title is-3">Video</h2> -->
+        <!-- <div class="publication-video"> -->
+          <!-- <iframe src="https://www.youtube.com/embed/XXXXXXXXXX?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/gC8HZa8bCLo?si=EAfETI3nnSWUVnAQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+    <!--/ Paper video. -->
+  <!-- </div> -->
+<!-- </section> -->
+
+
+<section class="hero teaser">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-3">Partial Images</h2>
+          <p>
+            <span class="kbody">KBody</span> produces higher quality fits when receiving partial images as input compared to other approaches.
+          </p>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/partial/faherty/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/partial/faherty/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/partial/faherty/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/partial/faherty/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/partial/faherty/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width="100%" src="./static/images/partial/good_american/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width="100%" src="./static/images/partial/good_american/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/partial/good_american/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/partial/good_american/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/partial/lululemon/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/partial/lululemon/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/partial/lululemon/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/partial/lululemon/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/partial/lululemon/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/partial/lululemon/kbody6.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/partial/lululemon/kbody7.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/partial/splendid/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/partial/splendid/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/partial/splendid/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/partial/splendid/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/partial/splendid/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/partial/splendid/kbody6.jpg" class="center">
+        </div>
+        <!-- <div class="item item-hero5">
+          <img width="100%" src="./static/images/partial/splendid/kbody7.jpg" class="center">
+        </div> -->
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/partial/splendid/kbody8.jpg" class="center">
+        </div>
+        <!-- <div class="item item-hero1">
+          <img width=100% src="./static/images/full/faherty/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width=100% src="./static/images/full/faherty/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width=100% src="./static/images/full/faherty/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width=100% src="./static/images/full/faherty/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width=100% src="./static/images/full/faherty/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width=100% src="./static/images/full/faherty/kbody6.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width=100% src="./static/images/full/faherty/kbody7.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width=100% src="./static/images/full/faherty/kbody8.jpg" class="center">
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="title is-3">Shape Variety</h2>
+            <p>
+              <span class="kbody">KBody</span> can handle a variety of shapes without sacrificing pose capturing performance.
+            </p>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/shape/various/kbody1.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/shape/various/kbody2.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/shape/various/kbody3.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/shape/various/kbody4.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/shape/various/kbody5.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width="100%" src="./static/images/shape/various/kbody6.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width="100%" src="./static/images/shape/various/kbody7.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/shape/various/kbody8.jpg" class="center">
+        </div>
+        <div class="item item-hero1">
+          <img width="100%" src="./static/images/shape/various/kbody9.jpg" class="center">
+        </div>
+        <div class="item item-hero2">
+          <img width="100%" src="./static/images/shape/various/kbody10.jpg" class="center">
+        </div>
+        <div class="item item-hero3">
+          <img width="100%" src="./static/images/shape/various/kbody11.jpg" class="center">
+        </div>
+        <div class="item item-hero4">
+          <img width="100%" src="./static/images/shape/various/kbody12.jpg" class="center">
+        </div>
+        <div class="item item-hero5">
+          <img width="100%" src="./static/images/shape/various/kbody13.jpg" class="center">
+        </div>
+        <div class="item item-hero6">
+          <img width="100%" src="./static/images/shape/various/kbody14.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width="100%" src="./static/images/shape/various/kbody15.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/shape/various/kbody16.jpg" class="center">
+        </div>
+        <div class="item item-hero7">
+          <img width="100%" src="./static/images/shape/various/kbody17.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/shape/various/kbody18.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/shape/various/kbody19.jpg" class="center">
+        </div>  
+        <div class="item item-hero7">
+          <img width="100%" src="./static/images/shape/various/kbody20.jpg" class="center">
+        </div>
+        <div class="item item-hero8">
+          <img width="100%" src="./static/images/shape/various/kbody21.jpg" class="center">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section">  -->
+    <!-- Optimization. -->
+    <!-- <div class="container is-centered has-text-centered">       -->
+        <!-- <h2 class="title is-3">Animation</h2> -->
+
+        <!-- Visualization. -->
+        <!-- <h3 class="title is-4">Optimization visualization</h3> -->
+        <!-- <div class="content has-text-justified"> -->
+          <!-- <p> -->
+            <!-- optimization visualization -->
+          <!-- </p> -->
+        <!-- </div> -->
+        <!-- <div class="columns is-vcentered interpolation-panel"> -->
+          <!-- <div class="column is-3 has-text-centered"> -->
+            <!-- <img src="./static/images/optimization_start.jpg"
+                 class="interpolation-image"
+                 alt="Optimization start image."/>
+            <p>Start</p> -->
+          <!-- </div> -->
+          <!-- <div class="column interpolation-video-column"> -->
+            <!-- <div id="optimization-image-wrapper"> -->
+              <!-- Loading... -->
+            <!-- </div> -->
+            <!-- <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/optimization_end.jpg"
+                 class="interpolation-image"
+                 alt="Optimization end reference image."/>
+            <p class="is-bold">End</p>
+          </div>
+        </div>
+        <br/> -->
+        <!--/ Optimization. -->
+
+        <!-- Additional Video. -->
+        <!-- <h3 class="title is-4">Placeholder Video</h3>
+        <div class="content has-text-justified">
+          <p>
+            placeholder
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="75%">
+            <source src="./static/videos/XXXXX.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+        <!--/ Additional Video. -->
+
+      <!-- </div>
+    </div> -->
+    <!--/ ???. -->
+
+
+    
+<section class="section">
+    <div class="container is-centered has-text-centered is-max-desktop">
+      <table>
+        <td>
+          <div class="b-dics" style="width: 300px">
+            <img src="./static/images/full/good_american/kbody1.jpg" alt="KBody">
+            <img src="./static/images/full/good_american/shapy1.jpg" alt="SHAPY">
+          </div>
+        </td>
+        <td>
+          <div class="b-dics" style="width: 300px">
+            <img src="./static/images/full/good_american/kbody1.jpg" alt="KBody">
+            <img src="./static/images/full/good_american/pymafx1.jpg" alt="PyMAF-X">
+          </div>
+        </td>
+        <td>
+          <div class="b-dics" style="width: 300px">
+            <img src="./static/images/full/good_american/kbody1.jpg" alt="KBody">
+            <img src="./static/images/full/good_american/smplifyx1.jpg" alt="SMPL-X">
+          </div>
+        </td>
+        
+      </table>
+  </div>
+</section>
+
+    <!-- References. -->
+    <div class="container is-centered">
+        <h2 class="title is-3">References</h2>
+
+        <div class="content has-text-justified">
+          <!-- <p>
+            text about references
+          </p> -->
+          <p>
+            <a href="https://www.liuyebin.com/pymaf-x/">PyMAF-X</a>: Towards Well-aligned Full-body Model Regression from Monocular Images.
+          </p>
+          <p>
+            <a href="https://shapy.is.tue.mpg.de/">SHAPY</a>: Accurate 3D Body Shape Regression using Metric and Semantic Attributes.
+          </p>
+          <p>
+            <a href="https://smpl-x.is.tue.mpg.de/">SMPL-X</a>: Expressive Body Capture: 3D Hands, Face, and Body from a Single Image.
+          </p>
+        </div>
+    </div>
+    <!--/ Concurrent Work. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{zioulis2023kbody,
+  author    = {Zioulis, Nikolaos and O'Brien, James F.},
+  title     = {KBody: Towards general, robust, and aligned monocular whole-body estimation},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
+  month     = {June},
+  year      = {2023},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/pdf/kbody_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <!-- <a class="icon-link" href="https://github.com/klothed" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a> -->
+    </div>
+    <div class="columns is-centered">
+        <div class="content">
+          <p>
+            The website template is borrowed from <a href="https://nerfies.github.io" target="_blank">nerfies</a>.
+          </p>
+        </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
